@@ -30,7 +30,7 @@ int main() {
     spatial_filter.set_option(RS2_OPTION_FILTER_MAGNITUDE, 5); // 空间滤波器，平滑深度图像
     spatial_filter.set_option(RS2_OPTION_FILTER_SMOOTH_ALPHA, 1); // 平滑系数
     spatial_filter.set_option(RS2_OPTION_FILTER_SMOOTH_DELTA, 50); // 平滑阈值
-    spatial_filter.set_option(RS2_OPTION_HOLES_FILL, 2); // 填充孔洞
+    spatial_filter.set_option(RS2_OPTION_HOLES_FILL, 3); // 填充孔洞
 
     // 计时器变量，用于计算帧率
     auto last_time = std::chrono::high_resolution_clock::now();
@@ -43,9 +43,9 @@ int main() {
         rs2::depth_frame filtered = depth_frame;
 
         filtered = decimation_filter.process(filtered);
-        filtered = hole_filling.process(filtered);
         filtered = spatial_filter.process(filtered);
         filtered = temporal_filter.process(filtered);
+        filtered = hole_filling.process(filtered);
 
         // 获取深度数据
         const uint16_t* depth_data = reinterpret_cast<const uint16_t*>(filtered.get_data());
@@ -75,19 +75,12 @@ int main() {
             }
         }
 
-        for (int i = 0; i < depth_image.rows; ++i) {
-            for (int j = 0; j < depth_image.cols; ++j) {
-                std::cout << depth_image.at<uint16_t>(i, j) * depth_frame.get_units() << " ";
-            }
-            std::cout << std::endl;
-        }
-
         // 将裁剪后的深度图转换为灰度图，重新映射到0-255范围
         cv::Mat final_depth_image;
         depth_image.convertTo(final_depth_image, CV_8U, 0.1);  // 重新转换为灰度图
 
         // save depth_image to file
-        cv::imwrite("depth_image.jpg", final_depth_image);
+        // cv::imwrite("depth_image.jpg", final_depth_image);
 
         // 计算和显示帧率
         auto current_time = std::chrono::high_resolution_clock::now();

@@ -9,17 +9,22 @@ find_package(OpenCV REQUIRED)
 set(CMAKE_CXX_STANDARD 11)
 
 # Add executable target
-# add_executable(main src/test.cpp)
+# add_executable(main src/colormap.cpp)
 # add_executable(main src/with_clip.cpp)
 # add_executable(main src/better.cpp)
-add_executable(main src/version2.cpp)
-add_executable(get_max_dis src/get_max_dis.cpp
-        src/version_3.cpp)
+add_executable(version_2 src/version2.cpp)
+add_executable(get_max_dis src/get_max_dis.cpp)
+add_executable(version_3 src/version3.cpp)
+add_executable(align src/align.cpp)
 
 # Link libraries
-target_link_libraries(main PRIVATE realsense2::realsense2 ${OpenCV_LIBS})
+target_link_libraries(version_2 PRIVATE realsense2::realsense2 ${OpenCV_LIBS})
+target_link_libraries(version_3 PRIVATE realsense2::realsense2 ${OpenCV_LIBS})
 target_link_libraries(get_max_dis PRIVATE realsense2::realsense2 ${OpenCV_LIBS})
+target_link_libraries(align PRIVATE realsense2::realsense2 ${OpenCV_LIBS})
 
 # Set include directories
-target_include_directories(main PRIVATE ${OpenCV_INCLUDE_DIRS})
+target_include_directories(version_2 PRIVATE ${OpenCV_INCLUDE_DIRS})
+target_include_directories(version_3 PRIVATE ${OpenCV_INCLUDE_DIRS})
 target_include_directories(get_max_dis PRIVATE ${OpenCV_INCLUDE_DIRS})
+target_include_directories(align PRIVATE ${OpenCV_INCLUDE_DIRS})

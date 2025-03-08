@@ -28,12 +28,15 @@ int main() {
     // 滤波器参数设置
     decimation_filter.set_option(RS2_OPTION_FILTER_MAGNITUDE, 2); // 降采样滤波器，降低分辨率
     spatial_filter.set_option(RS2_OPTION_FILTER_MAGNITUDE, 5); // 空间滤波器，平滑深度图像
-    spatial_filter.set_option(RS2_OPTION_FILTER_SMOOTH_ALPHA, 1); // 平滑系数
+    spatial_filter.set_option(RS2_OPTION_FILTER_SMOOTH_ALPHA, 0.5); // 平滑系数
     spatial_filter.set_option(RS2_OPTION_FILTER_SMOOTH_DELTA, 50); // 平滑阈值
-    spatial_filter.set_option(RS2_OPTION_HOLES_FILL, 3); // 填充孔洞
-    temporal_filter.set_option(RS2_OPTION_FILTER_SMOOTH_DELTA, 50);
-    temporal_filter.set_option(RS2_OPTION_FILTER_SMOOTH_ALPHA, 0.5f);
+    spatial_filter.set_option(RS2_OPTION_HOLES_FILL, 5); // 填充孔洞
+    temporal_filter.set_option(RS2_OPTION_FILTER_SMOOTH_DELTA, 20);
+    temporal_filter.set_option(RS2_OPTION_FILTER_SMOOTH_ALPHA, 0.4);
     temporal_filter.set_option(RS2_OPTION_HOLES_FILL, 3);
+
+    // 创建 OpenCV 窗口
+    cv::namedWindow("Depth Image", cv::WINDOW_NORMAL);
 
     // 计时器变量，用于计算帧率
     auto last_time = std::chrono::high_resolution_clock::now();

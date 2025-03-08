@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.mjcf": "xml",
+        "chrono": "cpp"
+    }
+}

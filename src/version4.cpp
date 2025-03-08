@@ -61,13 +61,16 @@ int main() {
         int height = filtered.get_height();
 
         // 创建 OpenCV Mat 来存储深度图
-        cv::Mat depth_image = cv::Mat::ones(height, width, CV_32F); 
+        cv::Mat depth_image = cv::Mat::ones(height, width, CV_32F);
+        // cv::Mat depth_image_(cv::Size(width, height), CV_16UC1, (void*)filtered.get_data(), cv::Mat::AUTO_STEP);
 
         // 裁剪深度图的像素值到设定的距离范围
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 // 获取当前像素的深度值（单位：米）
                 float depth_value = filtered.get_distance(x, y);
+                // uint16_t depth_value_mm = depth_image_.at<uint16_t>(y, x);
+                // std::cout << "depth_value:" << depth_value << " depth_value_mm:" << depth_value_mm << std::endl;
                 depth_image.at<float>(y, x) = depth_value / max_distance;
                 if (std::isnan(depth_value)){
                     depth_image.at<float>(y, x) = max_distance / max_distance;
